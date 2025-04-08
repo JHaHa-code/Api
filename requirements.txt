@@ -1,3 +1,4 @@
-flask
-beautifulsoup4
+Flask
 playwright
+python-dotenv
+beautifulsoup4
