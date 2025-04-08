@@ -1,45 +1,23 @@
-FROM python:3.10
+FROM python:3.10-slim
 
-# 필수 패키지 설치
-RUN apt-get update && apt-get install -y \
-    curl \
-    wget \
-    gnupg \
-    ca-certificates \
-    fonts-nanum \
-    libglib2.0-0 \
-    libnss3 \
-    libatk-bridge2.0-0 \
-    libx11-xcb1 \
-    libxcomposite1 \
-    libxcursor1 \
-    libxdamage1 \
-    libxi6 \
-    libxtst6 \
-    libxrandr2 \
-    libasound2 \
-    libpangocairo-1.0-0 \
-    libpango-1.0-0 \
-    libcairo2 \
-    libatk1.0-0 \
-    libx11-6 \
-    libxext6 \
-    libxfixes3 \
-    libjpeg-dev \
-    libpng-dev \
-    && rm -rf /var/lib/apt/lists/*
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# 프로젝트 복사
+# 필수 패키지 설치 (playwright 돌릴 때 필요)
+RUN apt-get update && \
+    apt-get install -y wget curl unzip gnupg libglib2.0-0 libnss3 libgdk-pixbuf2.0-0 libgtk-3-0 libxss1 libasound2 libxcomposite1 libxrandr2 libxdamage1 libatk1.0-0 libatk-bridge2.0-0 libx11-xcb1 libxshmfence1 libgbm1 libxext6 libxfixes3 libxrender1 libfontconfig1 libxcursor1 && \
+    apt-get clean
+
 WORKDIR /app
-COPY . .
 
-# 파이썬 패키지 설치
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+COPY requirements.txt .
 
-# Playwright 설치 및 브라우저 다운로드
-RUN pip install playwright
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
 RUN playwright install --with-deps
 
-# 서버 실행
+COPY . .
+
+EXPOSE 5000
+
 CMD ["python", "app.py"]
