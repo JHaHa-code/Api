@@ -1,19 +1,15 @@
 FROM python:3.10-slim
 
-RUN apt-get update && apt-get install -y \
-    chromium-driver \
-    chromium \
-    wget \
-    unzip \
-    && apt-get clean
+ENV CHROME_PATH=/usr/bin/chromium
+ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
+
+RUN apt-get update && apt-get install -y     chromium     chromium-driver     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-COPY . .
-
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-ENV CHROME_BIN=/usr/bin/chromium
-ENV PATH=$PATH:/usr/lib/chromium
+COPY . .
 
 CMD ["python", "app.py"]
