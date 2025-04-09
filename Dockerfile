@@ -30,14 +30,14 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt ./ 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Google Chrome 설치
+# Chrome 설치
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     && dpkg -i google-chrome-stable_current_amd64.deb \
     && apt-get -y --fix-broken install \
     && rm google-chrome-stable_current_amd64.deb
 
-# ChromeDriver 설치
-RUN wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip \
+# ChromeDriver 135.0.7049.84 버전 다운로드 및 설치
+RUN wget https://chromedriver.storage.googleapis.com/135.0.7049.84/chromedriver_linux64.zip \
     && unzip chromedriver_linux64.zip -d /usr/local/bin/ \
     && rm chromedriver_linux64.zip
 
