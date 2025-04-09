@@ -23,6 +23,10 @@ RUN apt-get update && apt-get install -y \
     fonts-noto-color-emoji \
     unzip \
     ca-certificates \
+    # 누락된 의존성 추가
+    fonts-liberation \
+    libvulkan1 \
+    xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # 필요 라이브러리 설치
