@@ -2,6 +2,7 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
+# 필수 패키지 및 종속성 설치
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
@@ -20,25 +21,31 @@ RUN apt-get update && apt-get install -y \
     fonts-noto-color-emoji \
     unzip \
     ca-certificates \
+    fonts-liberation \
+    libvulkan1 \
+    xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
+# Python 패키지 설치
 COPY requirements.txt ./ 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Install Chrome and Chromedriver
+# Google Chrome 설치
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     && dpkg -i google-chrome-stable_current_amd64.deb \
     && apt-get -y --fix-broken install \
     && rm google-chrome-stable_current_amd64.deb
 
-# Install ChromeDriver
+# ChromeDriver 설치
 RUN wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip \
     && unzip chromedriver_linux64.zip -d /usr/local/bin/ \
     && rm chromedriver_linux64.zip
 
-# Add the script to run the Flask app
+# Flask 앱 파일 복사
 COPY . .
 
+# Flask 앱 포트 열기
 EXPOSE 5000
+
+# Flask 앱 실행
 CMD ["python", "app.py"]
