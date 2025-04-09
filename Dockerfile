@@ -23,7 +23,6 @@ RUN apt-get update && apt-get install -y \
     fonts-noto-color-emoji \
     unzip \
     ca-certificates \
-    # 누락된 의존성 추가
     fonts-liberation \
     libvulkan1 \
     xdg-utils \
@@ -39,8 +38,8 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
     && apt-get -y --fix-broken install \
     && rm google-chrome-stable_current_amd64.deb
 
-# ChromeDriver 설치 (버전 수정)
-RUN wget https://chromedriver.storage.googleapis.com/135.0.0/chromedriver_linux64.zip \
+# ChromeDriver 설치 (버전 수정: 135.0.5735.90)
+RUN wget https://chromedriver.storage.googleapis.com/135.0.5735.90/chromedriver_linux64.zip \
     && unzip chromedriver_linux64.zip -d /usr/local/bin/ \
     && rm chromedriver_linux64.zip
 
