@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt ./ 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Chrome 설치
+# Chrome 설치 (Chrome 135.0.7049.84 버전)
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     && dpkg -i google-chrome-stable_current_amd64.deb \
     && apt-get -y --fix-broken install \
